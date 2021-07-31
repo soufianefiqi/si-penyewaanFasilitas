@@ -21,8 +21,30 @@ class PenginapanController extends Controller
 
     public function store(Request $request)
     {
-        dd($request)->input;
-        DB::table('db_inaps')->insert([
+        $validation = $request->validate([
+            'nama_customer' => 'required', 
+            'no_telp' => 'required|numeric',
+            'email' => 'required|email', 
+            'alamat' => 'nullable', 
+            'kota'  => 'nullable', 
+            'check_in' => 'required', 
+            'check_out' => 'required', 
+            'tamu' => 'required', 
+            'kamar' => 'required', 
+            'pesanan' => 'required',
+            'pembayaran' => 'required',  
+        ], 
+        [   'nama_customer.required' => 'Harus diisi!', 
+            'no_telp.required' => 'Harus diisi!',
+            'no_telp.numeric' => 'Harus mengandung angka',
+            'email.required' => 'Harus diisi!',
+            'check_in.required' => 'Harus diisi!',
+            'check_out.required' => 'Harus diisi!',
+            'tamu.required' => 'Harus diisi', 
+            'kamar.required' => 'Harus diisi', 
+            'pembayaran.required' => 'Harus diisi!',
+        ]);
+        DB::table('table_db_inap')->insert([
             ['nama_customer' => $request->nama_customer, 'no_telp' => $request->no_telp, 
             'email' => $request->email, 'alamat' => $request->alamat, 'kota' => $request->kota, 'check_in' => $request->check_in, 'check_out' => $request->check_out, 'tamu' => $request->tamu, 'kamar' => $request->kamar, 'pesanan' => $request->pesanan, 'pembayaran' => $request->pembayaran]
         ]);

@@ -1,23 +1,31 @@
 @extends('layout.main')
 @section('content') 
     <section id="main">
+     {{-- message --}}
+      @if ($message = Session::get('message'))
+      <input type="hidden" id="swal-success" value="{{$message}}">
+         @endif
+
       <!-- ======= Featured Services Section ======= -->
+      <form action = '{{route("form_sewa")}}' method='POST'>
+        @csrf
+        @method("POST")
       <section id="form" class="form">
         <div class="container" data-aos="fade-up">
+
           <div class="row">
             <div class="col-md-6 ">
               <h3>lengkapi form dibawah ini!</h3>
               <p>*kolom wajib diisi</p>
-              <form>
                 <div class="form-row">
                   <div class="col">
-                    <span>Nama*</span>
-                    <input type="text" class="form-control" placeholder="">
+                    <span @error('nama_customer') class='text-danger' @enderror>Nama* @error('nama_customer'){{$message}}@enderror</span>
+                    <input type="text" name='nama_customer' value="{{old('nama_customer')}}"class="form-control" placeholder="">
                   </div>
                 </div>
-              </form>
             </div>
           </div>
+
           <div class="row mt-5">
               <div class="col-md-6">
                 <h3>Informasi Kontak</h3>
@@ -25,102 +33,110 @@
               </div>
               <div class="row">
             <div class="col-md-6 ">
-                <form>
                     <div class="form-row">
                       <div class="col">
-                        <span>Nomor Handphone*</span>
-                        <input type="text" class="form-control" placeholder="">
+                        <span @error('no_telp') class='text-danger' @enderror>Nomor Handphone* @error('no_telp'){{$message}}@enderror</span>
+                        <input type="text" name='no_telp' class="form-control" placeholder="">
                       </div>
                     </div>
-                  </form>
             </div>
+
             <div class="col-md-6 mt-1">
-                <form>
                     <div class="form-row">
                       <div class="col ">
-                        <span>Alamat Email*</span>
-                        <input type="email" aria-describedby="emailHelp" class="form-control" placeholder="">
+                        <span @error('email') class='text-danger' @enderror>Alamat Email* @error('email'){{$message}}@enderror</span>
+                        <input type="email" name='email' aria-describedby="emailHelp" class="form-control" placeholder="">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                       </div>
                     </div>
             </div>
           </div>
+
                 <div class="form-group mt-5">
-                    <label for="exampleFormControlTextarea1">Alamat*</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <label for="exampleFormControlTextarea1">Alamat</label>
+                    <textarea class="form-control" name='alamat' id="exampleFormControlTextarea1" rows="5"></textarea>
                   </div>
+
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <form>
                         <div class="form-row">
                           <div class="col">
-                            <span>Kota*</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <span>Kota</span>
+                            <input type="text" name='kota' class="form-control" placeholder="">
                           </div>
                         </div>
-                      </form>
                 </div>
             </div>
+
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <form>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Pesanan*</label>
-                            <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="">
+                            <label @error('pesanan')class='text-danger' @enderror for="exampleFormControlSelect1">Pesanan* @error('pesanan'){{$message}}@enderror</label>
+                            <select class="form-control" name='pesanan' id="exampleFormControlSelect1" aria-placeholder="">
                               <option selected>Fasilitas</option>
-                              <option>auditorium</option>
-                              <option>laboratorium</option>
-                              <option>Meetings</option>
+                              <option value='auditorium'>auditorium</option>
+                              <option value='laboratorium'>laboratorium</option>
+                              <option value='meetings'>Meetings</option>
                             </select>
-                          </div>
-                      </form>
+                       </div>
                 </div>
+
                 <div class="col-md-6 mt-2">
-                    <form>
                         <div class="form-row">
                             <div class="col">
-                              <span>Additional Request*</span>
-                              <input type="text" class="form-control" placeholder="Sound Systems, dll">
+                              <span>Additional Request</span>
+                              <input type="text" name='add_request' class="form-control" placeholder="Sound Systems, dll">
                             </div>
-                          </div>
-                      </form>
+                        </div>
                 </div>
+
             </div>
             <div class="d-flex flex-row">
               <div class="p-2">
-                  <form>
                       <div class="form-row">
                         <div class="col">
-                          <span>Check In</span>
-                          <input type="date" class="form-control" placeholder="Check In">
+                          <span @error('check_in') class='text-danger' @enderror>Check In*  @error('check_in'){{$message}}@enderror</span>
+                          <input type="date"name='check_in' class="form-control" placeholder="Check In">
                         </div>
+
                         <div class="col ">
-                          <span>Check Out</span>
-                          <input type="date" class="form-control" placeholder="Check Out">
+                          <span  @error('check_out')class='text-danger' @enderror>Check Out*  @error('check_out'){{$message}}@enderror</span>
+                          <input type="date" name='check_out'class="form-control" placeholder="Check Out">
                         </div>
-                      </div>
-                    </form>
+                   </div>
               </div>
             </div>
+
             <div class="row mt-5">
               <div class="col-md-6">
-              <form>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Pilih Jenis Pembayaran</label>
-                    <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="">
-                      <option selected>Jenis Pembayaran</option>
-                      <option>Mandiri</option>
-                      <option>BCA</option>
-                      <option>BNI</option>
+                    <label  @error('pembayaran') class='text-danger' @enderror for="exampleFormControlSelect1">Pilih Jenis Pembayaran  @error('pembayaran'){{$message}}@enderror</label>
+                    <select class="form-control" name='pembayaran' id="exampleFormControlSelect1" aria-placeholder="">
+                      <option selected>Jenis Pembayaran*</option>
+                      <option value='mandiri'>Mandiri</option>
+                      <option value='BCA'>BCA</option>
+                      <option value='BNI'>BNI</option>
                     </select>
                   </div>
-              </form>
               </div>
             </div>
-            <a href="success.html"><button type="button" class="btn btn-info float-right rounded-pill mt-5">Lanjutkan ke Pembayaran</button></a>
-        </div>
+            <a href="{{url('form_sewa/create')}}"><button type="submit" class="btn btn-info float-right rounded-pill mt-5">Lanjutkan ke Pembayaran</button></a>
+      </form>
       </section>
       <!-- End Featured Services Section -->
     </main>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    const success = document.getElementById('swal-success');
+
+    if (success) {
+      Swal.fire({
+        icon: 'success',
+        title: success.value,
+        showConfirmButton: true,
+        timer: 2500
+      });
+    } 
+    </script>
     <!-- End #main -->
 @endsection

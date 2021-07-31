@@ -16,14 +16,15 @@ class CreateTableDbSewa extends Migration
         Schema::create('table_db_sewa', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_customer');
-            $table->int('no_telp',15)->unique();
-            $table->string('email')->unique();
-            $table->string('alamat');
-            $table->string('kota');
-            $table->string('add_request');
+            $table->string('no_telp',15);
+            $table->string('email');
+            $table->string('alamat')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('add_request')->nullable();
             $table->date('check_in');
             $table->date('check_out');
             $table->enum('pesanan', ['auditorium', 'laboratorium','meetings']);
+            $table->enum('pembayaran', ['mandiri', 'BCA','BNI']);
             $table->timestamps();
         });
     }

@@ -12,15 +12,10 @@ class SewaController extends Controller
     {
         return view('sewa');
     }
-    public function form_sewa()
-    {
-        return view('form_sewa');
-    }
-
 
     public function create()
     {
-        return view('sewa');
+        return view('form_sewa');
     }
 
     /**
@@ -31,7 +26,45 @@ class SewaController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = $request->validate([
+            'nama_customer' => 'required', 
+            'no_telp' => 'required|numeric',
+            'email' => 'required|email', 
+            'alamat' => 'nullable', 
+            'kota'  => 'nullable', 
+            'add_request' => 'nullable', 
+            'check_in' => 'required', 
+            'check_out' => 'required', 
+            'pesanan' => 'required',
+            'pembayaran' => 'required',  
+        ], 
+        [   'nama_customer.required' => 'Harus diisi!', 
+            'no_telp.required' => 'Harus diisi!',
+            'no_telp.numeric' => 'Harus mengandung angka',
+            'email.required' => 'Harus diisi!',
+            'check_in.required' => 'Harus diisi!',
+            'check_out.required' => 'Harus diisi!',
+            'pembayaran.required' => 'Harus diisi!',
+        ]);
+        DB::table('table_db_sewa')->insert([
+            ['nama_customer' => $request->nama_customer, 'no_telp' => $request->no_telp, 
+            'email' => $request->email, 'alamat' => $request->alamat, 'kota' => $request->kota,   'check_in' => $request->check_in, 'check_out' => $request->check_out, 'pesanan' => $request->pesanan, 'add_request' => $request->add_request,'pembayaran' => $request->pembayaran]
+        ]);
+        // $subject = "Contact dari " . $request->input('nama_customer');
+        // $name = $request-> input('nama_customer');
+        // $email = $request-> input('email');
+        // $message = $request-> input('message');
         
+        // $mail = new PHPMailer(true);
+        // try{
+        //     $mail->isSMTP();
+        //     $mail->Host = 'smtp.mail.yahoo.com';
+        //     $mail->SMTPAuth = 'true';
+        //     $mail->Username = 'NICT.official@uinjkt.ac.id'
+        //     $mail->SMTPSecure = 'tls';
+        //     $mail->port = 587;
+        // }
+        return Redirect()->back() -> with('message', 'Data berhasil disimpan');
     }
 
     /**

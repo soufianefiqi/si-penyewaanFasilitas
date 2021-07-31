@@ -16,13 +16,16 @@ class CreateTableDbInap extends Migration
         Schema::create('table_db_inap', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_customer');
-            $table->char('no_telp',15)->unique();
-            $table->string('email')->unique();
-            $table->string('alamat');
-            $table->string('kota');
+            $table->char('no_telp',15);
+            $table->string('email');
+            $table->string('alamat')->nullable();
+            $table->string('kota')->nullable();
             $table->date('check_in');
             $table->date('check_out');
+            $table->integer('kamar');
+            $table->integer('tamu');
             $table->enum('pesanan', ['VIP', 'standard']);
+            $table->enum('pembayaran', ['mandiri', 'BCA', 'BNI']);
             $table->timestamps();
         });
     }
